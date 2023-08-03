@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-console.log(process.env.REACT_APP_WEATHERAPI_KEY)
-const url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHERAPI_KEY}&q=Manchester&days=1&aqi=no&alerts=no`;
+const url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHERAPI_KEY}&q=Mont Saint-Michel&days=1&aqi=no&alerts=no`;
 
 
 
@@ -25,11 +24,28 @@ const WeatherDisplay = () => {
     })
     return (
         <div>
-            <h2>Today's Weather</h2>
+            
             {weatherData && (
-                <ul>{weatherData.map((hourlyData, i) => {
-                    return <li key={'hour_' + i}>{hourlyData.time.split(" ")[1]}: {hourlyData.condition.text}</li>
-                })}</ul>
+                <table className="table table-striped table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">Time</th>
+                            <th scope="col">Summary</th>
+                            <th scope="col">Temp</th>
+                            <th scope="col">Chance of Rain</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {weatherData.map((hourlyData, i) => {
+                        return <tr key={'hour_' + i}>
+                            <td>{hourlyData.time.split(" ")[1]}</td>
+                            <td><img src={`https:${hourlyData.condition.icon}`} />{hourlyData.condition.text}</td>
+                            <td>{Math.round(parseInt(hourlyData.temp_c))}</td>
+                            <td>{Math.round(parseInt(hourlyData.chance_of_rain))}%</td>
+                        </tr>
+                        })}
+                    </tbody>
+                </table>
                 
     )}
 
