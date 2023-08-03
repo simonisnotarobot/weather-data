@@ -8,16 +8,21 @@ const url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_
 const WeatherDisplay = () => {
     const [weatherData, setWeatherData] = useState(null)
     const fetchWeatherData = () => {
+        const localhour = parseInt(new Date().toLocaleString().split(" ")[1].slice(0,2))    
         fetch(url)
         .then(response => response.json())
         .then(data => {
-            setWeatherData(data.forecast.forecastday[0].hour)
+            const fromNow = data.forecast.forecastday[0].hour.filter((hour) => {
+                const hourTimeData = parseInt(hour.time.split(" ")[1].slice(0,2))
+                return hourTimeData >= localhour
+            })
+            setWeatherData(fromNow)
         })
     }
-
+    
     useEffect(() => {
         fetchWeatherData()
-    }, [])
+    })
     return (
         <div>
             <h2>Today's Weather</h2>
