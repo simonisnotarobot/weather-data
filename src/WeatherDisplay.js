@@ -1,10 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
-const url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHERAPI_KEY}&q=Mont Saint-Michel&days=1&aqi=no&alerts=no`;
-
-
-
-const WeatherDisplay = () => {
+const WeatherDisplay = ({location}) => {
+    const url = `http://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHERAPI_KEY}&q=${location}&days=1&aqi=no&alerts=no`;
     const [weatherData, setWeatherData] = useState(null)
     const fetchWeatherData = () => {
         const localhour = parseInt(new Date().toLocaleString().split(" ")[1].slice(0,2))    
@@ -23,33 +20,35 @@ const WeatherDisplay = () => {
         fetchWeatherData()
     })
     return (
-        <div>
-            
-            {weatherData && (
-                <table className="table table-striped table-borderless">
-                    <thead>
-                        <tr>
-                            <th scope="col">Time</th>
-                            <th scope="col">Summary</th>
-                            <th scope="col">Temp</th>
-                            <th scope="col">Chance of Rain</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {weatherData.map((hourlyData, i) => {
-                        return <tr key={'hour_' + i}>
-                            <td>{hourlyData.time.split(" ")[1]}</td>
-                            <td><img src={`https:${hourlyData.condition.icon}`} />{hourlyData.condition.text}</td>
-                            <td>{Math.round(parseInt(hourlyData.temp_c))}</td>
-                            <td>{Math.round(parseInt(hourlyData.chance_of_rain))}%</td>
-                        </tr>
-                        })}
-                    </tbody>
-                </table>
-                
-    )}
-
-        </div>
+        <>
+            <div>
+                <h2>Showing today's weather for {location}</h2>
+            </div>
+            <div>
+                {weatherData && (
+                    <table className="table table-striped table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col">Time</th>
+                                <th scope="col">Summary</th>
+                                <th scope="col">Temp</th>
+                                <th scope="col">Chance of Rain</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {weatherData.map((hourlyData, i) => {
+                            return <tr key={'hour_' + i}>
+                                <td>{hourlyData.time.split(" ")[1]}</td>
+                                <td><img src={`https:${hourlyData.condition.icon}`} alt={`${hourlyData.condition.text} icon`}/>{hourlyData.condition.text}</td>
+                                <td>{Math.round(parseInt(hourlyData.temp_c))}</td>
+                                <td>{Math.round(parseInt(hourlyData.chance_of_rain))}%</td>
+                            </tr>
+                            })}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+        </>
     )
 }
 
