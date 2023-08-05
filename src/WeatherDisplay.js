@@ -27,37 +27,43 @@ const WeatherDisplay = ({location}) => {
     }, [url])
     return (
         <>
-            <div>
+            
                 {(!dataError && weatherData) && (
                     <>
-                        <div>
-                            <h2>Showing today's weather for {location}</h2>
+                        <div className="row d-flex justify-content-center">
+                            <div className='w-50'>
+                                <div className='row'>
+                                    <table className="table table-striped table-borderless col-md-6">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">Summary</th>
+                                                <th scope="col">Temp</th>
+                                                <th scope="col">Chance of Rain</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {weatherData.map((hourlyData, i) => {
+                                            return <tr key={'hour_' + i}>
+                                                <td>{hourlyData.time.split(" ")[1]}</td>
+                                                <td><img src={`https:${hourlyData.condition.icon}`} alt={`${hourlyData.condition.text} icon`}/>{hourlyData.condition.text}</td>
+                                                <td>{Math.round(parseInt(hourlyData.temp_c))}</td>
+                                                <td>{Math.round(parseInt(hourlyData.chance_of_rain))}%</td>
+                                            </tr>
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <table className="table table-striped table-borderless">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Time</th>
-                                    <th scope="col">Summary</th>
-                                    <th scope="col">Temp</th>
-                                    <th scope="col">Chance of Rain</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {weatherData.map((hourlyData, i) => {
-                                return <tr key={'hour_' + i}>
-                                    <td>{hourlyData.time.split(" ")[1]}</td>
-                                    <td><img src={`https:${hourlyData.condition.icon}`} alt={`${hourlyData.condition.text} icon`}/>{hourlyData.condition.text}</td>
-                                    <td>{Math.round(parseInt(hourlyData.temp_c))}</td>
-                                    <td>{Math.round(parseInt(hourlyData.chance_of_rain))}%</td>
-                                </tr>
-                                })}
-                            </tbody>
-                        </table>
                     </>
                 )}
-            </div>
+            
             {dataError && (
-                <h2>😞 Something went wrong. Can't get weather for {location}</h2>
+                <div className='text-center'>
+                    <h2>😞 Something went wrong. Can't get weather for {location}</h2>
+                </div>
+                
             )}
         </>
     )

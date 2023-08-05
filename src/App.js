@@ -17,8 +17,19 @@ function App() {
   
   return (
       <>
-          <LocationForm handleSubmit={handleSubmit} handleChange={handleChange} />
-          {location && (<WeatherDisplay location={location} />)}
+          
+          <div className='row d-flex justify-content-center'>
+            <div className='col-md-6'>
+              <LocationForm handleSubmit={handleSubmit} handleChange={handleChange} />
+            </div>
+          </div>
+          <div className='row d-flex justify-content-center'>
+            <div className='col-md-6'>
+              {location && (<WeatherDisplay location={location} />)}
+            </div>
+          </div>
+
+          
           
       
       </>

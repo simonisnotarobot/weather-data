@@ -1,15 +1,16 @@
 const LocationForm = ({handleSubmit, handleChange, location}) => {
-   
-  
-  return (
+   return (
       <>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Where in the world are you? <input name="location" placeholder="Enter a location" onChange={handleChange} />
-        </label> 
-        <button type="submit">Get Weather</button> 
-      </form>
-        </>   
+        <div className="row d-flex justify-content-center">
+          <div className='col-md-6 w-50'>
+            <form className='text-center border border-light p-5' onSubmit={handleSubmit}>
+              <p className='h2 mb-4'>Where are you?</p>
+              <input className='form-control mb-4' name="location" placeholder="Enter a location" onChange={handleChange} />
+              <button className='btn btn-info btn-block my-4' type="submit">Get Weather</button> 
+            </form>
+          </div>
+        </div>
+      </>   
     );
   }
 
